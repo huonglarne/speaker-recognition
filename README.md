@@ -22,7 +22,7 @@ Per can choose which way of installing dependencies:
     ```
     pip install -r requirements.txt
     ```
-- By other package manager (in case per have some of them already):
+- Still by `pip` but not using `requirement.txt` (in case per have some of them already):
 
     ```
     pip install (dependency)
