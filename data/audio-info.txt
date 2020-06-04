@@ -1,3 +1,0 @@
-rate - 44100 Hz
-full audio: Full-<user id>
-segmented audio: Seg-<user id>-<segment number>
