@@ -1,7 +1,7 @@
 # Data preprocessing
 
 The [VAD.py file](https://github.com/huonglarne/speaker-recognition/blob/base-gender-recognition/VAD.py) is used to detect voice activity and eliminate silent parts.
-The [segment-audio.py file](https://github.com/huonglarne/speaker-recognition/blob/base-gender-recognition/segment-audio.py} is used to split audio into small chunks for easier training and testing.
+The [segment-audio.py file](https://github.com/huonglarne/speaker-recognition/blob/base-gender-recognition/segment-audio.py) is used to split audio into small chunks for easier training and testing.
 
 # Code
 
