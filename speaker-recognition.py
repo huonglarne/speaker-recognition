@@ -7,6 +7,10 @@ import glob
 import argparse
 from utils import read_wav
 from interface import ModelInterface
+import pyaudio
+import wave
+from scipy.io import wavfile
+
 
 def get_args():
     desc = "Speaker Recognition Command Line Tool"
@@ -73,6 +77,15 @@ def task_predict(input_files, input_model):
         label, score = m.predict(fs, signal)
         print (f, '->', label, ", score->", score)
 
+def task_record(input_files, input_model):
+    m = ModelInterface.load(input_model)
+    
+    for f in glob.glob(os.path.expanduser(input_files)):
+        fs, signal = read_wav(f)
+        label, score = m.predict(fs, signal)
+        print (f, '->', label, ", score->", score)
+
+
 if __name__ == "__main__":
     global args
     args = get_args()
@@ -82,3 +95,44 @@ if __name__ == "__main__":
         task_enroll(args.input, args.model)
     elif task == 'predict':
         task_predict(args.input, args.model)
+    elif task == "record":
+        filename = "recorded.wav"
+        # set the chunk size of 1024 samples
+        chunk = 1024
+        # sample format
+        FORMAT = pyaudio.paInt16
+        channels = 1 # mono, change to 2 if you want stereo
+        sample_rate = 44100
+        record_seconds = 5
+        # initialize PyAudio object
+        p = pyaudio.PyAudio()
+        # open stream object as input & output
+        stream = p.open(format=FORMAT, channels=channels, rate=sample_rate, input=True, output=True, frames_per_buffer=chunk)
+        frames = []
+        print("Recording...")
+        for i in range(int(44100 / chunk * record_seconds)):
+            data = stream.read(chunk)
+            # if you want to hear your voice while recording
+            # stream.write(data)
+            frames.append(data)
+        print("Finished recording.")
+        # stop and close stream
+        stream.stop_stream()
+        stream.close()
+        # terminate pyaudio object
+        p.terminate()
+        # save audio file
+
+        # open the file in 'write bytes' mode
+        wf = wave.open(filename, "wb")
+        wf.setnchannels(channels)
+        wf.setsampwidth(p.get_sample_size(FORMAT))
+        # set the sample rate
+        wf.setframerate(sample_rate)
+        # write the frames as bytes
+        wf.writeframes(b"".join(frames))
+        # close the file
+        wf.close()
+
+        # input_files=wave.open('recorded.wav','wb')
+        task_record(args.input, args.model)
