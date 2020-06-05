@@ -41,6 +41,6 @@ From command line:
     python3 speaker-recognition.py -t TASK -i INPUT -m MODEL
 ```
 Where:
-- `TASK` is the task which the script supposed to do, either "enroll" or "predict".
-- `INPUT` input directories to "enroll" and input files to "predict".
+- `TASK` is the task which the script supposed to do, either "enroll", "predict" or "record".
+- `INPUT` input directories to "enroll" and input files to "predict". If the task is "record, write "recorded.wav"
 - `MODEL` is a file to save the model when enroll and use to predict the speaker.
