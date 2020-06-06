@@ -42,5 +42,5 @@ From command line:
 ```
 Where:
 - `TASK` is the task which the script supposed to do, either "enroll", "predict" or "record".
-- `INPUT` input directories to "enroll" and input files to "predict". If the task is "record, write "recorded.wav"
+- `INPUT` input directories to "enroll" and input files to "predict". If the task is "record, write "record.wav"
 - `MODEL` is a file to save the model when enroll and use to predict the speaker.

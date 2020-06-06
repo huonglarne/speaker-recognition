@@ -1,11 +1,23 @@
-import pickle
+import numpy as np
+
 from collections import defaultdict
 from skgmm import GMMSet
-from features import get_feature
+from python_speech_features import mfcc, delta
+
+import pickle
 import time
 
-class ModelInterface:
 
+def get_feature(fs, signal):
+    """ Use MFCC to get features."""
+    mfcc_feature = mfcc(signal, fs, nfft=2048)
+    if len(mfcc_feature) == 0:
+        print >> sys.stderr, "ERROR.. failed to extract mfcc feature:", len(signal)
+    return mfcc_feature
+
+
+class ModelInterface:
+    """ Interface of `speaker-recognition.py`."""
     def __init__(self):
         self.features = defaultdict(list)
         self.gmmset = GMMSet()
@@ -22,19 +34,17 @@ class ModelInterface:
                 self.gmmset.fit_new(feats, name)
             except Exception as e :
                 print ("%s failed"%(name))
-        print (time.time() - start_time, " seconds")
+        print ("Training done, took", time.time() - start_time, "seconds.")
 
     def dump(self, fname):
-        """ dump all models to file"""
+        """ Dump all models to file."""
         self.gmmset.before_pickle()
         with open(fname, 'wb') as f:
             pickle.dump(self, f, -1)
         self.gmmset.after_pickle()
 
     def predict(self, fs, signal):
-        """
-        return a label (name)
-        """
+        """ Return a label (name)."""
         try:
             feat = get_feature(fs, signal)
         except Exception as e:
