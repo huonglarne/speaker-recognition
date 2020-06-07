@@ -10,7 +10,8 @@ from interface import ModelInterface
 import pyaudio
 import wave
 from scipy.io import wavfile
-
+from logmm import reduce_noise
+# import vad 
 
 def get_args():
     desc = "Speaker Recognition Command Line Tool"
@@ -100,16 +101,13 @@ def task_predict(input_files, input_model):
 
 
 def task_record(input_files, input_model):
-    filename = "record.wav"
-    # set the chunk size of 1024 samples
-    chunk = 1024
-    # sample format
-    FORMAT = pyaudio.paInt16
+    filename = "recorded.wav"
+    chunk = 1024 # set the chunk size of 1024 samples
+    FORMAT = pyaudio.paInt16 # sample format
     channels = 1 # mono, change to 2 if you want stereo
     sample_rate = 44100
     record_seconds = 5
-    # initialize PyAudio object
-    p = pyaudio.PyAudio()
+    p = pyaudio.PyAudio() # initialize PyAudio object
     # open stream object as input & output
     stream = p.open(format=FORMAT, channels=channels, rate=sample_rate, input=True, output=True, frames_per_buffer=chunk)
     frames = []
@@ -122,9 +120,8 @@ def task_record(input_files, input_model):
     print("Finished recording.")
     # stop and close stream
     stream.stop_stream()
-    stream.close()
-    # terminate pyaudio object
-    p.terminate()
+    stream.close()  
+    p.terminate() # terminate pyaudio object
     # save audio file
 
     # open the file in 'write bytes' mode
@@ -133,11 +130,12 @@ def task_record(input_files, input_model):
     wf.setsampwidth(p.get_sample_size(FORMAT))
     # set the sample rate
     wf.setframerate(sample_rate)
-    # write the frames as bytes
-    wf.writeframes(b"".join(frames))
-    # close the file
-    wf.close()
+    wf.writeframes(b"".join(frames)) # write the frames as bytes
+    wf.close() # close the file
 
+    reduce_noise('recorded.wav', input_files)
+    # audio_file = r"record.wav"
+    # vad.process_file(audio_file)
     # input_files=wave.open('recorded.wav','wb')
     m = ModelInterface.load(input_model)
     
@@ -157,7 +155,7 @@ if __name__ == "__main__":
     elif task == 'predict':
         task_predict(args.input, args.model)
     elif task == "record":
-       task_record(args.input, args.model)
+        task_record(args.input, args.model)
     else:
         print ("No valid directory found!")
         sys.exit(1)
