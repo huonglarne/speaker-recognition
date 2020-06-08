@@ -18,6 +18,6 @@ Our group tried different algorithms and models for this task. Please visit thes
 - [LPC and LBG](https://github.com/huonglarne/speaker-recognition/tree/stanford)
 
 ## Report and presentation
-[Report](https://www.overleaf.com/read/swsbpztcbncp)
+[Report](https://drive.google.com/file/d/1EjYulV-PPzTLUDEYkPHINh5kCt818qTz/view?usp=sharing)
 
 [Presentation](https://www.overleaf.com/project/5edce9fbd8b5e40001574ab9)
