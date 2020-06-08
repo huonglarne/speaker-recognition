@@ -3,6 +3,7 @@
 Created on Sat Feb 27 22:01:37 2016
 
 @author: ORCHISAMA
+@modified by: LTHOANGG
 """
 
 #calculate LPC coefficients from sound file
@@ -31,9 +32,9 @@ def createSymmetricMatrix(acf,p):
 def lpc(s,fs,p):
     
     #divide into segments of 25 ms with overlap of 10ms
-    #nSamples = np.int32(0.025*fs)
-    #overlap = np.int32(0.01*fs)
-    #nFrames = np.int32(np.ceil(len(s)/(nSamples-overlap)))
+    nSamples = np.int32(0.025*fs)
+    overlap = np.int32(0.01*fs)
+    nFrames = np.int32(np.ceil(len(s)/(nSamples-overlap)))
     
     #zero padding to make signal length long enough to have nFrames
     padding = ((nSamples-overlap)*nFrames) - len(s)

@@ -3,6 +3,7 @@
 Created on Thu Feb 25 00:34:54 2016
 
 @author: ORCHISAMA
+@modified by: LTHOANGG
 """
 
 #speaker specific Vector Quantization codebook using LBG algorithm
