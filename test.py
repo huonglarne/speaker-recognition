@@ -15,13 +15,21 @@ from train import training
 import os
 import speech_recognition as sr
 import wave
+import pickle
 
 students = ["Dao Duong Hoang Long", "Ngo Xuan Minh", "Nguyen Chi Thanh", "Le Trong Hoang", "Trinh Thao Phuong", "Nguyen Lan Huong", "Nguyen Le Thanh Ha", "Nguyen Huy An", "Dang Anh Duc"]
 directory = os.getcwd() + '/test'
 nSpeaker = len(next(os.walk(directory))[2]) - 1
 nfiltbank = 12
-orderLPC = 15
-(codebooks_mfcc, codebooks_lpc) = training(nfiltbank, orderLPC)
+orderLPC = 20
+train = int(input("Do you want to re-train models?\n1.Yes\n2.No\nYour command: "))
+if train == 1:
+    (codebooks_mfcc, codebooks_lpc) = training(nfiltbank, orderLPC)
+    pickle.dump(codebooks_mfcc, open("models/mfcc_model.sav" , 'wb'))
+    pickle.dump(codebooks_lpc, open("models/lpc_model.sav" ,  'wb'))
+else:
+    codebooks_mfcc = pickle.load(open("models/mfcc_model.sav", 'rb'))
+    codebooks_lpc = pickle.load(open("models/lpc_model.sav", 'rb'))
 fname = str()
 nCorrect_MFCC = 0
 nCorrect_LPC = 0
